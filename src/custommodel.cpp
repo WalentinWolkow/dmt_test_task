@@ -2,99 +2,132 @@
 
 #include <customtreeitem.h>
 
-static const Record records[] = {
-    { 1, 0, "Group1" },
-    { 2, 1, "Group1.1" },
-    { 3, 1, "Group1.2" },
-    { 4, 0, "Group2" },
-    { 5, 4, "Group2.1" },
-    { 6, 1, "Group1.3" },
-    { 7, 0, "Group3" },
-    { 8, 7, "Group3.1" },
-    { 9, 8, "Group3.1.1" },
-    { 10, 8, "Group3.1.2" }
-};
-
 CustomModel::CustomModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    QList<QVariant> rootData;
-    rootData << "ID" << "Name" << "Parent ID";
-    rootItem = new CustomTreeItem(rootData);
-
-    QList<QVariant> itemData;
     {
-        const Record &r = records[0];
-        itemData << r.id << r.name << r.parentId;
+        QList<QVariant> rootData;
+        rootData << "One" << "Two" << "Three" << "Four";
+        rootItem = new CustomTreeItem(rootData);
     }
-    CustomTreeItem *item = new CustomTreeItem(itemData, rootItem);
-    rootItem->appendChild(item);
 
-    itemData.clear();
     {
-        const Record &r = records[1];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item->appendChild(new CustomTreeItem(itemData, item));
+        TypeA structA;
+        structA.name = "A1";
+        structA.data = 1234;
 
-    itemData.clear();
-    {
-        const Record &r = records[2];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item->appendChild(new CustomTreeItem(itemData, item));
+        CustomTreeItem *itemA = new CustomTreeItem(structA, rootItem);
+        rootItem->appendChild(itemA);
 
-    itemData.clear();
-    {
-        const Record &r = records[5];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item->appendChild(new CustomTreeItem(itemData, item));
+        {
+            QDateTime dt = QDateTime::currentDateTime();
 
-    itemData.clear();
-    {
-        const Record &r = records[3];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item = new CustomTreeItem(itemData, rootItem);
-    rootItem->appendChild(item);
+            TypeB structB;
+            structB.name = "B1";
+            structB.date = dt.date();
+            structB.timeBegin = dt.time();
+            structB.timeEnd = dt.addSecs(30 * 60).time();
 
-    itemData.clear();
-    {
-        const Record &r = records[4];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item->appendChild(new CustomTreeItem(itemData, item));
+            CustomTreeItem *itemB = new CustomTreeItem(structB, itemA);
+            itemA->appendChild(itemB);
 
-    itemData.clear();
-    {
-        const Record &r = records[6];
-        itemData << r.id << r.name << r.parentId;
-    }
-    item = new CustomTreeItem(itemData, rootItem);
-    rootItem->appendChild(item);
+            {
+                TypeC structC;
+                structC.XCoord = 12345678;
+                structC.YCoord = 87654321;
 
-    itemData.clear();
-    {
-        const Record &r = records[7];
-        itemData << r.id << r.name << r.parentId;
-    }
-    CustomTreeItem *itemm = new CustomTreeItem(itemData, item);
-    item->appendChild(itemm);
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
 
-    itemData.clear();
-    {
-        const Record &r = records[8];
-        itemData << r.id << r.name << r.parentId;
-    }
-    itemm->appendChild(new CustomTreeItem(itemData, itemm));
+            {
+                TypeC structC;
+                structC.XCoord = 56781234;
+                structC.YCoord = 43218765;
 
-    itemData.clear();
-    {
-        const Record &r = records[9];
-        itemData << r.id << r.name << r.parentId;
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
+
+            {
+                TypeC structC;
+                structC.XCoord = 12783456;
+                structC.YCoord = 65438721;
+
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
+        }
+
+        {
+            QDateTime dt = QDateTime::currentDateTime();
+
+            TypeB structB;
+            structB.name = "B2";
+            structB.date = dt.date();
+            structB.timeBegin = dt.time();
+            structB.timeEnd = dt.addSecs(180 * 60).time();
+
+            CustomTreeItem *itemB = new CustomTreeItem(structB, itemA);
+            itemA->appendChild(itemB);
+
+            {
+                TypeC structC;
+                structC.XCoord = 12345678;
+                structC.YCoord = 87654321;
+
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
+
+            {
+                TypeC structC;
+                structC.XCoord = 56781234;
+                structC.YCoord = 43218765;
+
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
+
+            {
+                TypeC structC;
+                structC.XCoord = 12783456;
+                structC.YCoord = 65438721;
+
+                itemB->appendChild(new CustomTreeItem(structC, itemB));
+            }
+        }
     }
-    itemm->appendChild(new CustomTreeItem(itemData, itemm));
+
+    {
+        TypeA structA;
+        structA.name = "A2";
+        structA.data = 8765;
+
+        CustomTreeItem *itemA = new CustomTreeItem(structA, rootItem);
+        rootItem->appendChild(itemA);
+
+        {
+            QDateTime dt = QDateTime::currentDateTime();
+
+            TypeB structB;
+            structB.name = "B3";
+            structB.date = dt.date();
+            structB.timeBegin = dt.time();
+            structB.timeEnd = dt.addSecs(60 * 60).time();
+
+            CustomTreeItem *itemB = new CustomTreeItem(structB, itemA);
+            itemA->appendChild(itemB);
+        }
+
+        {
+            QDateTime dt = QDateTime::currentDateTime();
+
+            TypeB structB;
+            structB.name = "B4";
+            structB.date = dt.date();
+            structB.timeBegin = dt.time();
+            structB.timeEnd = dt.addSecs(240 * 60).time();
+
+            CustomTreeItem *itemB = new CustomTreeItem(structB, itemA);
+            itemA->appendChild(itemB);
+        }
+    }
 }
 
 CustomModel::~CustomModel()
@@ -107,15 +140,18 @@ QVariant CustomModel::headerData(int section, Qt::Orientation orientation, int r
     return orientation == Qt::Horizontal && role == Qt::DisplayRole ? rootItem->data(section) : QVariant();
 }
 
-/*bool CustomModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+bool CustomModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
-    if (value != headerData(section, orientation, role)) {
-        // FIXME: Implement me!
-        emit headerDataChanged(orientation, section, section);
-        return true;
-    }
-    return false;
-}*/
+    if (role != Qt::EditRole || value == headerData(section, orientation, Qt::DisplayRole))
+        return false;
+
+    if (!rootItem->setData(section, value))
+        return false;
+
+    emit headerDataChanged(orientation, section, section);
+
+    return true;
+}
 
 QModelIndex CustomModel::index(int row, int column, const QModelIndex &parent) const
 {
@@ -171,19 +207,22 @@ QVariant CustomModel::data(const QModelIndex &index, int role) const
     return static_cast<CustomTreeItem *>(index.internalPointer())->data(index.column());
 }
 
-/*bool CustomModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool CustomModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
-        emit dataChanged(index, index, QVector<int>() << role);
-        return true;
-    }
-    return false;
-}*/
+    if (role != Qt::EditRole || data(index, Qt::DisplayRole) == value)
+        return false;
+
+    if (!static_cast<CustomTreeItem *>(index.internalPointer())->setData(index.column(), value))
+        return false;
+
+    emit dataChanged(index, index, QVector<int>() << role);
+
+    return true;
+}
 
 Qt::ItemFlags CustomModel::flags(const QModelIndex &index) const
 {
-    return index.isValid() ? Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::ItemIsDropEnabled;
+    return index.isValid() ? Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::ItemIsDropEnabled;
 }
 
 /*bool CustomModel::insertRows(int row, int count, const QModelIndex &parent)
@@ -212,33 +251,4 @@ Qt::ItemFlags CustomModel::flags(const QModelIndex &index) const
     beginRemoveColumns(parent, column, column + count - 1);
     // FIXME: Implement me!
     endRemoveColumns();
-}*/
-
-
-// Private:
-/*QVector<int> CustomModel::childIds(int parentId) const
-{
-    QVector<int> ret;
-    for (int i = 0; i < 10; ++i)
-        if (records[i].parentId == parentId)
-            ret.push_back(records[i].id);
-
-    return ret;
-}*/
-
-/*const Record & CustomModel::recordById(int id) const
-{
-    for (int i = 0; i < 10; ++i)
-        if (records[i].id == id)
-            return records[i];
-}*/
-
-/*QModelIndex CustomModel::indexById(int id) const
-{
-    if (id == 0)
-        return QModelIndex();
-
-    int parentId = recordById(id).parentId;
-
-    return index(childIds(parentId).indexOf(id), 0, indexById(parentId));
 }*/

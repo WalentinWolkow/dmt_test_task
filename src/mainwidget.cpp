@@ -6,10 +6,11 @@
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainWidget)
+    , model(new CustomModel(this))
 {
     ui->setupUi(this);
 
-    ui->treeView->setModel(new CustomModel(this));
+    ui->treeView->setModel(model);
 }
 
 MainWidget::~MainWidget()

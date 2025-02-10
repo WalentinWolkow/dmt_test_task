@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class CustomModel;
+
 namespace Ui {
     class MainWidget;
 }
@@ -17,5 +19,7 @@ public:
 
 private:
     Ui::MainWidget *ui;
+
+    CustomModel *model;
 };
 #endif // MAINWIDGET_H
