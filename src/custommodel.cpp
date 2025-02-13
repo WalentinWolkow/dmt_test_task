@@ -23,7 +23,7 @@ CustomModel::CustomModel(QObject *parent)
             QDateTime dt = QDateTime::currentDateTime();
 
             TypeB structB;
-            structB.name = "B1";
+            structB.title = TitleB_1;
             structB.date = dt.date();
             structB.timeBegin = dt.time();
             structB.timeEnd = dt.addSecs(30 * 60).time();
@@ -60,7 +60,7 @@ CustomModel::CustomModel(QObject *parent)
             QDateTime dt = QDateTime::currentDateTime();
 
             TypeB structB;
-            structB.name = "B2";
+            structB.title = TitleB_2;
             structB.date = dt.date();
             structB.timeBegin = dt.time();
             structB.timeEnd = dt.addSecs(180 * 60).time();
@@ -106,7 +106,7 @@ CustomModel::CustomModel(QObject *parent)
             QDateTime dt = QDateTime::currentDateTime();
 
             TypeB structB;
-            structB.name = "B3";
+            structB.title = TitleB_3;
             structB.date = dt.date();
             structB.timeBegin = dt.time();
             structB.timeEnd = dt.addSecs(60 * 60).time();
@@ -119,7 +119,7 @@ CustomModel::CustomModel(QObject *parent)
             QDateTime dt = QDateTime::currentDateTime();
 
             TypeB structB;
-            structB.name = "B4";
+            structB.title = TitleB_4;
             structB.date = dt.date();
             structB.timeBegin = dt.time();
             structB.timeEnd = dt.addSecs(240 * 60).time();
@@ -180,10 +180,10 @@ int CustomModel::columnCount(const QModelIndex &parent) const
     return (parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem)->columnCount();
 }
 
-/*bool CustomModel::hasChildren(const QModelIndex &parent) const
+bool CustomModel::hasChildren(const QModelIndex &parent) const
 {
-    // FIXME: Implement me!
-}*/
+    return (parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem)->childsCount() != 0;
+}
 
 /*bool CustomModel::canFetchMore(const QModelIndex &parent) const
 {
@@ -232,23 +232,9 @@ Qt::ItemFlags CustomModel::flags(const QModelIndex &index) const
     endInsertRows();
 }*/
 
-/*bool CustomModel::insertColumns(int column, int count, const QModelIndex &parent)
-{
-    beginInsertColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endInsertColumns();
-}*/
-
 /*bool CustomModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
-}*/
-
-/*bool CustomModel::removeColumns(int column, int count, const QModelIndex &parent)
-{
-    beginRemoveColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endRemoveColumns();
 }*/

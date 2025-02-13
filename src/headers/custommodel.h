@@ -25,7 +25,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     // Fetch data dynamically:
-//    bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
 //    bool canFetchMore(const QModelIndex &parent) const override;
 //    void fetchMore(const QModelIndex &parent) override;
@@ -39,11 +39,9 @@ public:
 
     // Add data:
 //    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-//    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
 
     // Remove data:
 //    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-//    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
 
 private:
     CustomTreeItem *rootItem;

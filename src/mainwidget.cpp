@@ -2,6 +2,7 @@
 #include "ui_mainwidget.h"
 
 #include <custommodel.h>
+#include <customdelegate.h>
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
@@ -11,6 +12,7 @@ MainWidget::MainWidget(QWidget *parent)
     ui->setupUi(this);
 
     ui->treeView->setModel(model);
+    ui->treeView->setItemDelegate(new CustomDelegate(this));
 }
 
 MainWidget::~MainWidget()

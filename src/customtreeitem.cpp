@@ -18,7 +18,7 @@ CustomTreeItem::CustomTreeItem(TypeB &data, CustomTreeItem *parent)
     : mParent(parent)
 {
     mItemType = TYPE_B;
-    mItemData << data.name << data.date.toString("dd.MM.yyyy") << data.timeBegin.toString("hh:mm:ss") << data.timeEnd.toString("hh:mm:ss");
+    mItemData << titlesOfTypeB[data.title] << data.date.toString(QStringLiteral("dd.MM.yyyy")) << data.timeBegin.toString(QStringLiteral("hh:mm:ss")) << data.timeEnd.toString(QStringLiteral("hh:mm:ss"));
 }
 
 CustomTreeItem::CustomTreeItem(TypeC &data, CustomTreeItem *parent)
@@ -70,12 +70,12 @@ int CustomTreeItem::row() const
     return mParent ? mParent->mChilds.indexOf(const_cast<CustomTreeItem *>(this)) : 0;
 }
 
-bool CustomTreeItem::setData(int col, const QVariant &data)
+bool CustomTreeItem::setData(int column, const QVariant &data)
 {
-    if (col >= mItemData.size())
+    if (column >= mItemData.size())
         return false;
 
-    mItemData[col] = data;
+    mItemData[column] = data;
 
     return true;
 }

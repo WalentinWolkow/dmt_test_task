@@ -16,21 +16,21 @@ public:
         DEFAULT
     } ItemType;
 
-    CustomTreeItem(QList<QVariant> &, CustomTreeItem * = nullptr);
-    CustomTreeItem(TypeA &, CustomTreeItem * = nullptr);
-    CustomTreeItem(TypeB &, CustomTreeItem * = nullptr);
-    CustomTreeItem(TypeC &, CustomTreeItem * = nullptr);
+    CustomTreeItem(QList<QVariant> &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(TypeA &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(TypeB &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(TypeC &data, CustomTreeItem *parent = nullptr);
 
     ~CustomTreeItem();
 
-    void appendChild(CustomTreeItem *);
-    CustomTreeItem * child(int);
+    void appendChild(CustomTreeItem *child);
+    CustomTreeItem * child(int row);
     int childsCount() const;
     int columnCount() const;
-    QVariant data(int) const;
+    QVariant data(int column) const;
     CustomTreeItem * parent();
     int row() const;
-    bool setData(int, const QVariant &);
+    bool setData(int column, const QVariant &data);
     ItemType type() const;
 
 private:

@@ -7,7 +7,7 @@ class CustomThread : public QThread
 {
 //    Q_OBJECT
 public:
-    explicit CustomThread(void (&)(), int = 1, QObject * = nullptr);
+    explicit CustomThread(void (&func)(), int timeout = 1, QObject *parent = nullptr);
     ~CustomThread();
 
 protected:

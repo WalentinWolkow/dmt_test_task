@@ -5,13 +5,24 @@
 #include <QDate>
 #include <QTime>
 
+#define TITLES_OF_TYPE_B_NUMBER 4
+extern const char * titlesOfTypeB[TITLES_OF_TYPE_B_NUMBER];
+
+typedef enum {
+    TitleB_1,
+    TitleB_2,
+    TitleB_3,
+    TitleB_4
+} TitleB;
+
+
 typedef struct {
     QString name;
     int data;
 } TypeA;
 
 typedef struct {
-    QString name;
+    TitleB title;
     QDate date;
     QTime timeBegin;
     QTime timeEnd;
