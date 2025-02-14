@@ -157,7 +157,7 @@ QModelIndex CustomModel::index(int row, int column, const QModelIndex &parent) c
 {
     CustomTreeItem *item = (parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem)->child(row);
 
-    return item ? createIndex(row, column, item) : QModelIndex();
+    return item && column < item->columnCount() ? createIndex(row, column, item) : QModelIndex();
 }
 
 QModelIndex CustomModel::parent(const QModelIndex &index) const
@@ -232,9 +232,14 @@ Qt::ItemFlags CustomModel::flags(const QModelIndex &index) const
     endInsertRows();
 }*/
 
-/*bool CustomModel::removeRows(int row, int count, const QModelIndex &parent)
+bool CustomModel::removeRows(int /*row*/, int /*count*/, const QModelIndex &parent)
 {
-    beginRemoveRows(parent, row, row + count - 1);
+    if (!parent.isValid())
+        return false;
+
+//    beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
-    endRemoveRows();
-}*/
+//    endRemoveRows();
+
+    return false;
+}

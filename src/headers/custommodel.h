@@ -41,7 +41,7 @@ public:
 //    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     // Remove data:
-//    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
 private:
     CustomTreeItem *rootItem;

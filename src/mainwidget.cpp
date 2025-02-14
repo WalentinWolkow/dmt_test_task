@@ -3,6 +3,7 @@
 
 #include <custommodel.h>
 #include <customdelegate.h>
+#include <customthread.h>
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
@@ -13,6 +14,9 @@ MainWidget::MainWidget(QWidget *parent)
 
     ui->treeView->setModel(model);
     ui->treeView->setItemDelegate(new CustomDelegate(this));
+
+    new CustomThreadOne(model, this);
+    new CustomThreadTwo(model, this);
 }
 
 MainWidget::~MainWidget()

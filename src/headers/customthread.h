@@ -1,25 +1,47 @@
 #ifndef CUSTOMTHREAD_H
 #define CUSTOMTHREAD_H
 
-#include <QThread>
+#include "custombasethread.h"
 
-class CustomThread : public QThread
+#include <custommodel.h>
+
+#define THREAD_ONE_TIMEOUT  3
+
+class CustomThreadOne : public CustomBaseThread
 {
-//    Q_OBJECT
 public:
-    explicit CustomThread(void (&func)(), int timeout = 1, QObject *parent = nullptr);
-    ~CustomThread();
+    explicit CustomThreadOne(CustomModel *model, QObject *parent = nullptr)
+        : CustomBaseThread(THREAD_ONE_TIMEOUT, parent)
+        , mModel(model)
+    {}
 
-protected:
-    void run() final;
+    ~CustomThreadOne()
+    {}
+
+    void stepFunction() final;
 
 private:
-    void (&stepFunc)();
-    int pipeId[2];
-    int mTimeout;
-
-//signals:
-
+    CustomModel *mModel;
 };
 
-#endif // CUSTOMTHREAD_H
+
+#define THREAD_TWO_TIMEOUT  5
+
+class CustomThreadTwo : public CustomBaseThread
+{
+public:
+    explicit CustomThreadTwo(CustomModel *model, QObject *parent = nullptr)
+        : CustomBaseThread(THREAD_TWO_TIMEOUT, parent)
+        , mModel(model)
+    {}
+
+    ~CustomThreadTwo()
+    {}
+
+    void stepFunction() final;
+
+private:
+    CustomModel *mModel;
+};
+
+#endif  // CUSTOMTHREAD_H
