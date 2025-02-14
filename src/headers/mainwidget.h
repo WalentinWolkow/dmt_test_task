@@ -21,5 +21,9 @@ private:
     Ui::MainWidget *ui;
 
     CustomModel *model;
+
+private slots:
+    void slotCheckBox(bool);
+    void slotLineEdit(QString);
 };
 #endif // MAINWIDGET_H
