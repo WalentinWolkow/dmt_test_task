@@ -1,24 +1,27 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 
+#include <QStack>
+
 #include <custommodel.h>
 #include <customdelegate.h>
 #include <customthread.h>
+#include <customtreeitem.h>
 
 #include <iostream>
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainWidget)
-    , model(new CustomModel(this))
+    , mModel(new CustomModel(this))
 {
     ui->setupUi(this);
 
-    ui->treeView->setModel(model);
+    ui->treeView->setModel(mModel);
     ui->treeView->setItemDelegate(new CustomDelegate(this));
 
-    new CustomThreadOne(model, this);
-    new CustomThreadTwo(model, this);
+    new CustomThreadOne(mModel, this);
+    new CustomThreadTwo(mModel, this);
 }
 
 MainWidget::~MainWidget()
@@ -30,7 +33,8 @@ MainWidget::~MainWidget()
 void MainWidget::slotCheckBox(bool val)
 {
     QCheckBox *checkBox = static_cast<QCheckBox* >(sender());
-    std::cout << __PRETTY_FUNCTION__ << "\nName = \'" << checkBox->objectName().toStdString() << "\'\nValue = " << val << '.' << std::endl;
+    if (checkBox == nullptr)
+        return;
 
     if (checkBox == ui->checkBoxAll)
     {
@@ -44,7 +48,27 @@ void MainWidget::slotCheckBox(bool val)
         return;
     }
 
-    std::cout << "Not implemented yet!" << std::endl;
+    if (checkBox->checkState() == Qt::Unchecked)
+        ui->checkBoxAll->setCheckState(Qt::Unchecked);
+
+    bool isHidden[3];
+    isHidden[0] = ui->checkBoxA->checkState() == Qt::Unchecked;
+    isHidden[1] = ui->checkBoxB->checkState() == Qt::Unchecked;
+    isHidden[2] = ui->checkBoxC->checkState() == Qt::Unchecked;
+
+    QStack<QModelIndex> stack;
+    for (int row = 0, rowCount = mModel->rowCount(); row < rowCount; ++row)
+        stack.push(mModel->index(row, 0));
+
+    for ( ; !stack.isEmpty(); )
+    {
+        QModelIndex index = stack.pop();
+
+        for (int row = 0, rowCount = mModel->rowCount(index); row < rowCount; ++row)
+            stack.push(mModel->index(row, 0, index));
+
+        ui->treeView->setRowHidden(index.row(), index.parent(), isHidden[static_cast<CustomTreeItem *>(index.internalPointer())->type()]);
+    }
 }
 
 void MainWidget::slotLineEdit(QString str)

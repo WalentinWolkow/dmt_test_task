@@ -20,7 +20,7 @@ public:
 private:
     Ui::MainWidget *ui;
 
-    CustomModel *model;
+    CustomModel *mModel;
 
 private slots:
     void slotCheckBox(bool);
