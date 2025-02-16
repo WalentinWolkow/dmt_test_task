@@ -16,21 +16,32 @@ typedef enum {
 } TitleB;
 
 
-typedef struct {
+typedef struct stA {
     QString name;
     int data;
+
+    stA() : data(0) {}
 } TypeA;
 
-typedef struct {
+typedef struct stB {
     TitleB title;
     QDate date;
     QTime timeBegin;
     QTime timeEnd;
+
+    stB() : title(TitleB::TitleB_1)
+    {
+        QDateTime dt = QDateTime::currentDateTime();
+        date = dt.date();
+        timeBegin = timeEnd = dt.time();
+    }
 } TypeB;
 
-typedef struct {
+typedef struct stC {
     int XCoord;
     int YCoord;
+
+    stC() : XCoord(0), YCoord(0) {}
 } TypeC;
 
 #endif // DATATYPES_H

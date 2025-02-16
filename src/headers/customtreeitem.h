@@ -13,13 +13,14 @@ public:
         TYPE_A,
         TYPE_B,
         TYPE_C,
-        DEFAULT
+        TYPE_ROOT
     } ItemType;
 
-    CustomTreeItem(QList<QVariant> &data, CustomTreeItem *parent = nullptr);
-    CustomTreeItem(TypeA &data, CustomTreeItem *parent = nullptr);
-    CustomTreeItem(TypeB &data, CustomTreeItem *parent = nullptr);
-    CustomTreeItem(TypeC &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(const QList<QVariant> &data = QList<QVariant>(), CustomTreeItem *parent = nullptr);
+    CustomTreeItem(const TypeA &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(const TypeB &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(const TypeC &data, CustomTreeItem *parent = nullptr);
+    CustomTreeItem(const CustomTreeItem &other);
 
     ~CustomTreeItem();
 
@@ -28,10 +29,16 @@ public:
     int childsCount() const;
     int columnCount() const;
     QVariant data(int column) const;
+    bool insertChilds(int row, int count);
+    bool insertColumns(int column, int count);
     CustomTreeItem * parent();
+    bool removeChilds(int row, int count);
+    bool removeColumns(int column, int count);
     int row() const;
     bool setData(int column, const QVariant &data);
     ItemType type() const;
+
+    CustomTreeItem & operator=(const CustomTreeItem &other);
 
 private:
     CustomTreeItem *mParent;

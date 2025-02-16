@@ -125,10 +125,34 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 
 void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if (static_cast<CustomTreeItem *>(index.internalPointer())->type() != CustomTreeItem::TYPE_C)
-        return QStyledItemDelegate::setModelData(editor, model, index);
+    int column = index.column();
+    CustomTreeItem::ItemType itemType;
+    {
+        CustomTreeItem *treeItem = static_cast<CustomTreeItem *>(index.internalPointer());
+        if (column >= treeItem->columnCount())
+            return;
 
-    model->setData(index, QVariant(static_cast<QSpinBox *>(editor)->value()));
+        itemType = treeItem->type();
+    }
+
+    QVariant data;
+    if (itemType == CustomTreeItem::TYPE_A && column == 1)
+        data = static_cast<QSpinBox *>(editor)->text().rightJustified(4, '0');
+    else if (itemType == CustomTreeItem::TYPE_B)
+    {
+        if (column == 0)
+            data = static_cast<QComboBox *>(editor)->currentText();
+        else if (column == 1)
+            data = static_cast<QDateEdit *>(editor)->text();
+        else
+            data = static_cast<QTimeEdit *>(editor)->text();
+    }
+    else if (itemType == CustomTreeItem::TYPE_C)
+        data = static_cast<QSpinBox *>(editor)->text().rightJustified(8, '0');
+    else
+        data = static_cast<QLineEdit *>(editor)->text();
+
+    model->setData(index, data);
 }
 
 void CustomDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const

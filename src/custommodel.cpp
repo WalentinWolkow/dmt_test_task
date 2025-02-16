@@ -225,21 +225,54 @@ Qt::ItemFlags CustomModel::flags(const QModelIndex &index) const
     return index.isValid() ? Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::ItemIsDropEnabled;
 }
 
-/*bool CustomModel::insertRows(int row, int count, const QModelIndex &parent)
+bool CustomModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+
+    CustomTreeItem *item = parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem;
+    bool res = item->insertChilds(row, count);
+
     endInsertRows();
-}*/
 
-bool CustomModel::removeRows(int /*row*/, int /*count*/, const QModelIndex &parent)
+    return res;
+}
+
+bool CustomModel::insertColumns(int column, int count, const QModelIndex &parent)
 {
-    if (!parent.isValid())
-        return false;
+    beginInsertColumns(parent, column, column + count - 1);
 
-//    beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-//    endRemoveRows();
+    for (int row = 0, rows = rowCount(parent); row < rows; ++row)
+        static_cast<CustomTreeItem *>(index(row, 0, parent).internalPointer())->insertColumns(column, count);
 
-    return false;
+    endInsertColumns();
+
+    return true;
+}
+
+bool CustomModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row + count - 1);
+
+    CustomTreeItem *item = parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem;
+    bool res = item->removeChilds(row, count);
+
+    endRemoveRows();
+
+    return res;
+}
+
+bool CustomModel::removeColumns(int column, int count, const QModelIndex &parent)
+{
+    beginRemoveColumns(parent, column, column + count - 1);
+
+    for (int row = 0, rows = rowCount(parent); row < rows; ++row)
+    {
+        QModelIndex curIndex = index(row, column, parent);
+        if (curIndex.isValid())
+            static_cast<CustomTreeItem *>(curIndex.internalPointer())->removeColumns(column, count);
+    }
+
+    endRemoveColumns();
+
+    return true;
 }

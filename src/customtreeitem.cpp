@@ -1,31 +1,38 @@
 #include "customtreeitem.h"
 
-CustomTreeItem::CustomTreeItem(QList<QVariant> &data, CustomTreeItem *parent)
+CustomTreeItem::CustomTreeItem(const QList<QVariant> &data, CustomTreeItem *parent)
     : mParent(parent)
 {
-    mItemType = DEFAULT;
+    mItemType = TYPE_ROOT;
     mItemData = data;
 }
 
-CustomTreeItem::CustomTreeItem(TypeA &data, CustomTreeItem *parent)
+CustomTreeItem::CustomTreeItem(const TypeA &data, CustomTreeItem *parent)
     : mParent(parent)
 {
     mItemType = TYPE_A;
     mItemData << data.name << data.data;
 }
 
-CustomTreeItem::CustomTreeItem(TypeB &data, CustomTreeItem *parent)
+CustomTreeItem::CustomTreeItem(const TypeB &data, CustomTreeItem *parent)
     : mParent(parent)
 {
     mItemType = TYPE_B;
     mItemData << titlesOfTypeB[data.title] << data.date.toString(QStringLiteral("dd.MM.yyyy")) << data.timeBegin.toString(QStringLiteral("hh:mm:ss")) << data.timeEnd.toString(QStringLiteral("hh:mm:ss"));
 }
 
-CustomTreeItem::CustomTreeItem(TypeC &data, CustomTreeItem *parent)
+CustomTreeItem::CustomTreeItem(const TypeC &data, CustomTreeItem *parent)
     : mParent(parent)
 {
     mItemType = TYPE_C;
     mItemData << data.XCoord << data.YCoord;
+}
+
+CustomTreeItem::CustomTreeItem(const CustomTreeItem &other)
+{
+    mParent = other.mParent;
+    mItemData = other.mItemData;
+    mItemType = other.mItemType;
 }
 
 
@@ -60,9 +67,60 @@ QVariant CustomTreeItem::data(int column) const
     return mItemData.value(column, QVariant());
 }
 
+bool CustomTreeItem::insertChilds(int row, int count)
+{
+    CustomTreeItem item;
+    if (mItemType == TYPE_ROOT)
+        item = CustomTreeItem(stA(), this);
+    else if (mItemType == TYPE_A)
+        item = CustomTreeItem(stB(), this);
+    else if (mItemType == TYPE_B)
+        item = CustomTreeItem(stC(), this);
+    else
+        return false;
+
+    for (int r = row; r < row + count; ++r)
+        mChilds.insert(row, new CustomTreeItem(item));
+
+    return true;
+}
+
+bool CustomTreeItem::insertColumns(int column, int count)
+{
+    for (int i = 0; i < count; ++i)
+        mItemData.insert(column,  QVariant());
+
+    return true;
+}
+
 CustomTreeItem * CustomTreeItem::parent()
 {
     return mParent;
+}
+
+bool CustomTreeItem::removeChilds(int row, int count)
+{
+    int end = row + count;
+    {
+        int size = mChilds.size();
+        end = end > size ? size : end;
+    }
+
+    for (int r = row; r < end; ++r)
+    {
+        delete mChilds[row];
+        mChilds.removeAt(row);
+    }
+
+    return true;
+}
+
+bool CustomTreeItem::removeColumns(int column, int count)
+{
+    QList<QVariant>::iterator itBegin = mItemData.begin() + column;
+    mItemData.erase(itBegin, itBegin + count);
+
+    return true;
 }
 
 int CustomTreeItem::row() const
@@ -83,4 +141,13 @@ bool CustomTreeItem::setData(int column, const QVariant &data)
 CustomTreeItem::ItemType CustomTreeItem::type() const
 {
     return mItemType;
+}
+
+CustomTreeItem & CustomTreeItem::operator=(const CustomTreeItem &other)
+{
+    mItemData = other.mItemData;
+    mItemType = other.mItemType;
+    mParent = other.mParent;
+
+    return *this;
 }
