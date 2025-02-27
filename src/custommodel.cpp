@@ -185,17 +185,6 @@ bool CustomModel::hasChildren(const QModelIndex &parent) const
     return (parent.isValid() ? static_cast<CustomTreeItem *>(parent.internalPointer()) : rootItem)->childsCount() != 0;
 }
 
-/*bool CustomModel::canFetchMore(const QModelIndex &parent) const
-{
-    // FIXME: Implement me!
-    return false;
-}*/
-
-/*void CustomModel::fetchMore(const QModelIndex &parent)
-{
-    // FIXME: Implement me!
-}*/
-
 QVariant CustomModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())

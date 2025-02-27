@@ -14,36 +14,32 @@ public:
     ~CustomModel();
 
     // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const final;
+    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) final;
 
     // Basic functionality:
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const final;
+    QModelIndex parent(const QModelIndex &index) const final;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const final;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const final;
 
-    // Fetch data dynamically:
-    bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const final;
 
-//    bool canFetchMore(const QModelIndex &parent) const override;
-//    void fetchMore(const QModelIndex &parent) override;
-
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const final;
 
     // Editable:
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) final;
 
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const final;
 
     // Add data:
-    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) final;
+    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) final;
 
     // Remove data:
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) final;
+    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) final;
 
 private:
     CustomTreeItem *rootItem;

@@ -41,12 +41,7 @@ void CustomBaseThread::run()
 
     for ( ; ; )
     {
-        stepFunction();
-
         int res = poll(&pollfd, 1, mTimeout);
-        if (res == 0)
-            continue;
-
         if (res == -1)
         {
             std::cerr << "poll() error!\n";
@@ -61,5 +56,7 @@ void CustomBaseThread::run()
             if (c == 'Q' || c == 'q')
                 break;
         }
+
+        stepFunction();
     }
 }

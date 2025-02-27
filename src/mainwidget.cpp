@@ -19,6 +19,7 @@ MainWidget::MainWidget(QWidget *parent)
 
     ui->treeView->setModel(mModel);
     ui->treeView->setItemDelegate(new CustomDelegate(this));
+    ui->treeView->expandAll();
 
     new CustomThreadOne(mModel, this);
     new CustomThreadTwo(mModel, this);
