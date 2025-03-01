@@ -3,12 +3,15 @@
 
 #include <QThread>
 
+class QMutex;
+
 class CustomBaseThread : public QThread
 {
-//    Q_OBJECT
 public:
     explicit CustomBaseThread(int timeout = 1, QObject *parent = nullptr);
     ~CustomBaseThread();
+
+    static QMutex * getMutex();
 
     virtual void stepFunction() = 0;
 
@@ -18,9 +21,6 @@ protected:
 private:
     int pipeId[2];
     int mTimeout;
-
-//signals:
-
 };
 
 #endif // CUSTOMBASETHREAD_H

@@ -1,17 +1,49 @@
 #include "customthread.h"
 
-#include<iostream>
+#include <QMutexLocker>
+#include <QStack>
 
 // Thread One
 void CustomThreadOne::stepFunction()
 {
-    std::cerr << '.';
+    QMutexLocker locker(getMutex());
+
+    QModelIndex parent;
+    QStack<bool> canAddRow;
+    QStack<int> rowToAdd;
+
+    for ( ; ; )
+    {
+        int rows = mModel->rowCount(parent);
+
+        canAddRow.push(mModel->canInsertRows(parent));
+        rowToAdd.push(rows);
+
+        if (!mModel->hasChildren(parent))
+            break;
+
+        parent = mModel->index(rows - 1, 0, parent);
+    }
+
+    for ( ; !canAddRow.isEmpty(); rowToAdd.pop())
+    {
+        if (canAddRow.pop())
+        {
+            mModel->insertRow(rowToAdd.pop(), parent);
+            break;
+        }
+
+        parent = mModel->parent(parent);
+    }
 }
+
 
 
 //Thread Two
 void CustomThreadTwo::stepFunction()
 {
+    QMutexLocker locker(getMutex());
+
     if (!mModel->hasChildren())
         return;
 

@@ -1,12 +1,12 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 
-#include <QStack>
-
 #include <custommodel.h>
 #include <customdelegate.h>
 #include <customthread.h>
 #include <customtreeitem.h>
+
+#include <QStack>
 
 #include <iostream>
 
@@ -33,7 +33,7 @@ MainWidget::~MainWidget()
 
 void MainWidget::slotCheckBox(bool val)
 {
-    QCheckBox *checkBox = static_cast<QCheckBox* >(sender());
+    QCheckBox *checkBox = static_cast<QCheckBox *>(sender());
     if (checkBox == nullptr)
         return;
 

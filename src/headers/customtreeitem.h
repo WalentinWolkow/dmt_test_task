@@ -1,10 +1,46 @@
 #ifndef CUSTOMTREEITEM_H
 #define CUSTOMTREEITEM_H
 
-#include <datatypes.h>
-
-#include <QList>
+#include <QDateTime>
 #include <QVariant>
+
+typedef enum {
+    TitleB_1,
+    TitleB_2,
+    TitleB_3,
+    TitleB_4
+} TitleB;
+
+
+typedef struct stA {
+    QString name;
+    int data;
+
+    stA() : name('A'), data(0) {}
+} TypeA;
+
+typedef struct stB {
+    TitleB title;
+    QDate date;
+    QTime timeBegin;
+    QTime timeEnd;
+
+    stB() : title(TitleB::TitleB_1)
+    {
+        QDateTime dt = QDateTime::currentDateTime();
+        date = dt.date();
+        timeBegin = timeEnd = dt.time();
+    }
+} TypeB;
+
+typedef struct stC {
+    int XCoord;
+    int YCoord;
+
+    stC() : XCoord(0), YCoord(0) {}
+} TypeC;
+
+
 
 class CustomTreeItem
 {
@@ -40,12 +76,17 @@ public:
 
     CustomTreeItem & operator=(const CustomTreeItem &other);
 
+    static const char * getTitleOfTypeB(int i);
+    static int titlesOfBCount();
+
 private:
     CustomTreeItem *mParent;
     QList<CustomTreeItem *> mChilds;
 
     ItemType mItemType;
     QList<QVariant> mItemData;
+
+    static const char * titlesOfTypeB[];
 };
 
 #endif // CUSTOMTREEITEM_H

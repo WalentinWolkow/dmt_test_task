@@ -1,12 +1,10 @@
 #include "customdelegate.h"
+#include <customtreeitem.h>
 
 #include <QSpinBox>
 #include <QComboBox>
 #include <QDateEdit>
-#include <QTimeEdit>
 #include <QLineEdit>
-
-#include <customtreeitem.h>
 
 CustomDelegate::CustomDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -38,8 +36,8 @@ QWidget * CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
         if (column == 0)
         {
             QComboBox *cb = new QComboBox(parent);
-            for (size_t i = 0; i < sizeof(titlesOfTypeB) / sizeof(titlesOfTypeB[0]); ++i)
-                cb->addItem(titlesOfTypeB[i]);
+            for (size_t i = 0; i < CustomTreeItem::titlesOfBCount(); ++i)
+                cb->addItem(CustomTreeItem::getTitleOfTypeB(i));
 
             cb->setCurrentText(index.data().toString());
 

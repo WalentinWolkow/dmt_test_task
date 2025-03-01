@@ -3,6 +3,11 @@
 
 #include <QAbstractItemModel>
 
+#define LAYER_A_MAX_CHILDS_COUNT    3
+#define LAYER_B_MAX_CHILDS_COUNT    5
+#define LAYER_C_MAX_CHILDS_COUNT    0
+#define ROOT_MAX_CHILDS_COUNT       INT_MAX
+
 class CustomTreeItem;
 
 class CustomModel : public QAbstractItemModel
@@ -34,6 +39,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex& index) const final;
 
     // Add data:
+    bool canInsertRows(const QModelIndex &parent = QModelIndex()) const;
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) final;
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) final;
 
@@ -43,6 +49,8 @@ public:
 
 private:
     CustomTreeItem *rootItem;
+
+    static const int maxChildsCount[];
 };
 
 #endif // CUSTOMMODEL_H

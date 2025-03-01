@@ -1,5 +1,7 @@
 #include "custombasethread.h"
 
+#include <QMutex>
+
 #include <iostream>
 
 #include <unistd.h>
@@ -30,6 +32,13 @@ CustomBaseThread::~CustomBaseThread()
 
     if (pipeId[0] != -1)
         ::close(pipeId[0]);
+}
+
+
+QMutex * CustomBaseThread::getMutex()
+{
+    static QMutex mutex;
+    return &mutex;
 }
 
 

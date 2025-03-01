@@ -1,5 +1,13 @@
 #include "customtreeitem.h"
 
+const char * CustomTreeItem::titlesOfTypeB[] = {
+    "Гадюка",
+    "Кобра",
+    "Удав",
+    "Питон"
+};
+
+
 CustomTreeItem::CustomTreeItem(const QList<QVariant> &data, CustomTreeItem *parent)
     : mParent(parent)
 {
@@ -150,4 +158,18 @@ CustomTreeItem & CustomTreeItem::operator=(const CustomTreeItem &other)
     mParent = other.mParent;
 
     return *this;
+}
+
+
+const char * CustomTreeItem::getTitleOfTypeB(int i)
+{
+    if (i >= sizeof(titlesOfTypeB) / sizeof(titlesOfTypeB[0]))
+        return titlesOfTypeB[0];
+
+    return titlesOfTypeB[i];
+}
+
+int CustomTreeItem::titlesOfBCount()
+{
+    return sizeof(titlesOfTypeB) / sizeof(titlesOfTypeB[0]);
 }
