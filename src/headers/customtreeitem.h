@@ -4,6 +4,8 @@
 #include <QDateTime>
 #include <QVariant>
 
+#include <misc.h>
+
 typedef enum {
     TitleB_1,
     TitleB_2,
@@ -16,7 +18,7 @@ typedef struct stA {
     QString name;
     int data;
 
-    stA() : name('A'), data(0) {}
+    stA() : name('A' + (char)customRand('Z' - 'A')), data(customRand(9999)) {}
 } TypeA;
 
 typedef struct stB {
@@ -25,11 +27,12 @@ typedef struct stB {
     QTime timeBegin;
     QTime timeEnd;
 
-    stB() : title(TitleB::TitleB_1)
+    stB() : title((TitleB)customRand((int)TitleB_4))
     {
         QDateTime dt = QDateTime::currentDateTime();
         date = dt.date();
-        timeBegin = timeEnd = dt.time();
+        timeBegin = dt.time();
+        timeEnd = dt.addSecs(customRand(60 * 90)).time();
     }
 } TypeB;
 
@@ -37,7 +40,7 @@ typedef struct stC {
     int XCoord;
     int YCoord;
 
-    stC() : XCoord(0), YCoord(0) {}
+    stC() : XCoord(customRand(99999999)), YCoord(customRand(99999999)) {}
 } TypeC;
 
 

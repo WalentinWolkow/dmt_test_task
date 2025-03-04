@@ -6,6 +6,8 @@
 // Thread One
 void CustomThreadOne::stepFunction()
 {
+    srand(time(0));
+
     QMutexLocker locker(getMutex());
 
     QModelIndex parent;
